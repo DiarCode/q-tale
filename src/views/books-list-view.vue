@@ -50,8 +50,8 @@
 			<!-- filter tabs -->
 			<div class="flex flex-wrap justify-center gap-4 mb-12">
 				<button
-					v-for="(category, index) in categories"
-					:key="index"
+					v-for="(category) in BOOK_CATEGORIES"
+					:key="category"
 					@click="activeCategory = category"
 					class="filter-btn"
 					:class="{ 'active': activeCategory === category }"
@@ -98,66 +98,20 @@
 
 <script setup lang="ts">
 import HomeHeader from '@/components/home/home-header.vue'
+import { BOOK_CATEGORIES, BOOKS } from '@/constants/books'
 import { Play, Search } from 'lucide-vue-next'
 import * as THREE from 'three'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-const categories = [
-  'Барлық кітаптар',
-  'Классикалық әдебиет',
-  'Тарихи романдар'
-]
 
 const activeCategory = ref('Барлық кітаптар')
 const searchQuery = ref('')
 const isSearchFocused = ref(false)
 
-const allBooks = ref([
-  {
-    id: '1',
-    title: 'Абай жолы',
-    author: 'Мұхтар Әуезов',
-    coverImage: 'https://abai.kz/content/uploads/2021/08/23159658a5a605d4153cf6c0279e28ac.jpeg',
-    duration: '12 сағат 28 мин',
-    category: 'Классикалық әдебиет'
-  },
-  {
-    id: '2',
-    title: 'Қан мен тер',
-    author: 'Әбдіжәміл Нұрпейісов',
-    coverImage: 'https://cdn.kitap.kz/storage/book/dfa5bc4cbe6133665c3325a373d6ff36.jpg',
-    duration: '4 сағат 15 мин',
-    category: 'Классикалық әдебиет'
-  },
-  {
-    id: '3',
-    title: 'Ай мен Айша',
-    author: 'Шерхан Мұртаза',
-    coverImage: 'https://cdn.kitap.kz/storage/book/938bd333c1eb706801a0a46b7260252d.jpg',
-    duration: '3 сағат 45 мин',
-    category: 'Классикалық әдебиет'
-  },
-  {
-    id: '4',
-    title: 'Ақ Жайық',
-    author: 'Хамза Есенжанов',
-    coverImage: 'https://upload.wikimedia.org/wikipedia/kk/6/68/%D0%90%D2%9B%D0%B6%D0%B0%D0%B9%D1%8B%D2%9B.jpg',
-    duration: '1 сағат 20 мин',
-    category: 'Тарихи романдар'
-  },
-  {
-    id: '5',
-    title: 'Үркер',
-    author: 'Әбіш Кекілбаевт',
-    coverImage: 'https://cdn.kitap.kz/storage/book/1324630bdaebd3f7a9cf9008a89f574d.jpg',
-    duration: '2 сағат 35 мин',
-    category: 'Тарихи романдар'
-  }
-])
 
 // Filter and sort books
 const filteredBooks = computed(() => {
-  let books = [...allBooks.value]
+  let books = [...BOOKS]
 
   // Filter by category
   if (activeCategory.value !== 'Барлық кітаптар') {

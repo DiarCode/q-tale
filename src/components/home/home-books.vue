@@ -6,10 +6,10 @@
 		<div class="mx-auto px-4 container">
 			<div class="gap-6 grid grid-cols-12 grid-flow-dense auto-rows-[18rem]">
 				<div
-					v-for="(book, i) in featuredBooks"
+					v-for="(book, i) in BOOKS"
 					:key="i"
 					:class="['fade-in cursor-pointer', bento(i)]"
-					@click="goToBook(book.title)"
+					@click="goToBook(book.id)"
 				>
 					<div class="group card">
 						<img
@@ -34,46 +34,14 @@
 </template>
 
 <script setup lang="ts">
+import { BOOKS } from '@/constants/books'
 import { Play } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const featuredBooks = [
-  {
-    title: 'Абай жолы',
-    author: 'Мұхтар Әуезов',
-    coverImage: 'https://abai.kz/content/uploads/2021/08/23159658a5a605d4153cf6c0279e28ac.jpeg',
-    duration: '12 сағат 28 мин'
-  },
-  {
-    title: 'Қан мен тер',
-    author: 'Әбдіжәміл Нұрпейісов',
-    coverImage: 'https://cdn.kitap.kz/storage/book/dfa5bc4cbe6133665c3325a373d6ff36.jpg',
-    duration: '4 сағат 15 мин'
-  },
-  {
-    title: 'Ай мен Айша',
-    author: 'Шерхан Мұртаза',
-    coverImage: 'https://cdn.kitap.kz/storage/book/938bd333c1eb706801a0a46b7260252d.jpg',
-    duration: '3 сағат 45 мин'
-  },
-  {
-    title: 'Ақ Жайық',
-    author: 'Хамза Есенжанов',
-    coverImage: 'https://upload.wikimedia.org/wikipedia/kk/6/68/%D0%90%D2%9B%D0%B6%D0%B0%D0%B9%D1%8B%D2%9B.jpg',
-    duration: '1 сағат 20 мин'
-  },
-  {
-    title: 'Үркер',
-    author: 'Әбіш Кекілбаевт',
-    coverImage: 'https://cdn.kitap.kz/storage/book/1324630bdaebd3f7a9cf9008a89f574d.jpg',
-    duration: '2 сағат 35 мин'
-  },
-]
-
-function goToBook(title: string) {
-  router.push(`/${title.split(' ').join('_')}`)
+function goToBook(id: number) {
+  router.push(`/${id}`)
 }
 
 /* bento layout helper */

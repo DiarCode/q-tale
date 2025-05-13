@@ -39,7 +39,7 @@
 					class="btn-outline"
 					@click="goToBooksPage"
 				>
-					Кітаптарды қарау
+					Аудио өңдеу
 				</button>
 			</div>
 		</section>
@@ -63,7 +63,7 @@ function scrollToBooks() {
 }
 
 function goToBooksPage() {
-  router.push('/books')
+  router.push('/generate')
 }
 
 /* particles */

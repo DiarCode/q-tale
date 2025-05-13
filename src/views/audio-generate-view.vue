@@ -1,613 +1,325 @@
 <template>
 	<div
-		class="relative grid lg:grid-cols-2 bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#1e1b4b] min-h-screen text-slate-50"
+		class="relative flex justify-center items-center bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#1e1b4b] p-4 min-h-screen text-slate-50"
 	>
-		<!-- ── LEFT PANE ── -->
-		<section class="flex flex-col gap-6 p-8 lg:p-10 border-white/10 border-r">
-			<!-- Header -->
-			<header>
-				<h2 class="font-semibold text-2xl">Аудио енгізу</h2>
-				<p class="text-slate-400 text-sm">Дыбысты жазыңыз немесе файл жүктеңіз</p>
-			</header>
+		<button
+			class="top-6 left-6 fixed flex items-center"
+			@click="$router.back()"
+		>
+			<ChevronLeft class="w-5 h-5" /> Қайту
+		</button>
 
-			<!-- Tabs -->
-			<div class="flex gap-2">
-				<button
-					v-for="tab in tabs"
-					:key="tab.id"
-					class="flex items-center gap-2 px-5 py-3 rounded-full font-medium text-sm transition"
-					:class="
-            activeTab === tab.id
-              ? 'bg-violet-700 text-white'
-              : 'bg-white/5 text-slate-300 hover:bg-white/10'
-          "
-				>
-					<component
-						:is="tab.icon"
-						class="w-4 h-4"
-					/>
-					<span>{{ tab.label }}</span>
-				</button>
-			</div>
+		<div
+			class="bg-slate-900/50 shadow-xl backdrop-blur-sm rounded-3xl w-full max-w-5xl overflow-hidden"
+		>
+			<div class="grid lg:grid-cols-2">
+				<!-- LEFT PANE -->
+				<section class="flex flex-col gap-6 p-8 lg:p-10 border-white/10 lg:border-r">
+					<header>
+						<h2 class="font-semibold text-2xl">Аудио енгізу</h2>
+						<p class="text-slate-400 text-sm">Дыбысты жазып немесе файл жүктеңіз</p>
+					</header>
 
-			<!-- Input card -->
-			<div class="bg-slate-800/60 shadow-inner p-6 rounded-3xl">
-				<!-- === Recording interface === -->
-				<template v-if="activeTab === 'record'">
-					<div class="flex flex-col gap-6">
-						<!-- Record / stop button -->
+					<!-- Tabs -->
+					<div class="flex gap-2">
 						<button
-							@click="toggleRecording"
-							class="flex flex-col justify-center items-center gap-3 p-6 rounded-3xl w-full transition"
-							:class="{
-                'bg-violet-700 text-white': recordingState === 'idle',
-                'bg-red-500  text-white': recordingState === 'recording',
-                'bg-emerald-500 text-white': recordingState === 'recorded'
-              }"
-						>
-							<div class="flex items-center gap-3">
-								<component
-									:is="recordingIcon"
-									class="w-6 h-6"
-								/>
-								<span class="font-medium text-base">
-									{{ recordingButtonText }}
-								</span>
-							</div>
-
-							<!-- Live indicator -->
-							<div
-								v-if="recordingState === 'recording'"
-								class="flex items-center gap-2 text-sm"
-							>
-								<span class="relative flex w-3 h-3">
-									<span
-										class="inline-flex absolute bg-white opacity-75 rounded-full w-full h-full animate-ping"
-									></span>
-									<span class="inline-flex relative bg-white rounded-full w-3 h-3"></span>
-								</span>
-								<span>Жазылуда…</span>
-							</div>
-						</button>
-
-						<!-- Live bars + duration -->
-						<div
-							v-if="audioDuration"
-							class="flex flex-col gap-3"
-						>
-							<div class="flex items-end gap-1 bg-black/20 p-2 rounded-3xl w-full h-20">
-								<div
-									v-for="(bar, i) in visualizationBars"
-									:key="i"
-									:style="{ height: `${bar}%` }"
-									class="flex-1 bg-violet-500 rounded-[2px] transition-[height] duration-100"
-								></div>
-							</div>
-							<span class="text-slate-400 text-sm text-right">
-								{{ formatDuration(audioDuration) }}
-							</span>
-						</div>
-					</div>
-				</template>
-
-				<!-- === Upload interface === -->
-				<template v-else>
-					<div class="flex flex-col gap-4">
-						<label
-							class="flex flex-col justify-center items-center gap-3 p-8 border-2 border-dashed rounded-3xl text-center transition cursor-pointer"
-							:class="
-                audioFile
-                  ? 'border-violet-700 bg-violet-700/10'
-                  : 'border-white/10 hover:border-violet-500/80 hover:bg-violet-500/5'
-              "
-						>
-							<input
-								type="file"
-								accept="audio/*"
-								class="hidden"
-								@change="handleFileUpload"
-							/>
-							<Upload class="w-8 h-8 text-violet-500" />
-							<span
-								v-if="!audioFile"
-								class="font-medium text-base"
-							>
-								Аудио файлды таңдаңыз
-							</span>
-							<span
-								v-else
-								class="font-medium text-base break-all"
-							>
-								{{ audioFile.name }}
-							</span>
-							<span
-								v-if="!audioFile"
-								class="text-slate-400 text-sm"
-							>
-								немесе файлды осы жерге апарыңыз
-							</span>
-						</label>
-
-						<div
-							v-if="audioFile"
-							class="flex justify-between items-center text-slate-400 text-sm"
-						>
-							<span>{{ formatFileSize(audioFile.size) }}</span>
-							<span>{{ getFileType(audioFile.name) }}</span>
-							<button
-								@click="clearFile"
-								class="hover:bg-white/10 p-1 rounded-full transition"
-							>
-								<X class="w-4 h-4" />
-							</button>
-						</div>
-					</div>
-				</template>
-			</div>
-
-			<!-- Notes -->
-			<div class="flex flex-col gap-4">
-				<label class="font-medium text-slate-200 text-sm"> Қосымша ескертпелер </label>
-				<textarea
-					v-model="userNotes"
-					maxlength="120"
-					placeholder="Қысқаша ескертпе қалдырыңыз (макс. 120 таңба)…"
-					class="bg-white/5 p-4 border border-white/10 focus:border-violet-500 rounded-3xl focus:ring-2 focus:ring-violet-500/30 w-full min-h-[100px] placeholder:text-slate-400 resize-none"
-				/>
-				<span class="text-slate-400 text-xs text-right"> {{ userNotes.length }}/120 </span>
-			</div>
-
-			<!-- Process -->
-			<button
-				@click="processAudio"
-				:disabled="!hasAudioInput || isProcessing"
-				class="flex justify-center items-center gap-3 bg-violet-700 hover:bg-violet-800 disabled:opacity-50 mt-auto p-4 rounded-3xl font-medium text-white text-lg transition disabled:cursor-not-allowed"
-			>
-				<Loader2
-					v-if="isProcessing"
-					class="w-5 h-5 animate-spin"
-				/>
-				<span>{{ isProcessing ? 'Өңделуде…' : 'Өңдеуді бастау' }}</span>
-			</button>
-		</section>
-
-		<!-- ── RIGHT PANE ── -->
-		<section class="flex flex-col gap-6 p-8 lg:p-10">
-			<!-- Header -->
-			<header>
-				<h2 class="font-semibold text-white text-2xl">Нәтижелер</h2>
-				<p class="text-slate-400 text-sm">Өңделген аудио нәтижелері</p>
-			</header>
-
-			<!-- Results container -->
-			<div class="flex flex-col flex-1 justify-center">
-				<!-- Empty -->
-				<div
-					v-if="resultState === 'empty'"
-					class="flex flex-col justify-center items-center gap-4 bg-white/5 p-8 border border-white/10 border-dashed rounded-3xl text-center"
-				>
-					<Image class="w-12 h-12 text-slate-400/80" />
-					<h3 class="font-semibold text-xl">Нәтижелер жоқ</h3>
-					<p class="max-w-xs text-slate-400 text-sm">
-						Аудионы өңдеу үшін сол жақтағы параметрлерді орнатыңыз
-					</p>
-				</div>
-
-				<!-- Processing -->
-				<div
-					v-if="resultState === 'processing'"
-					class="flex flex-col justify-center items-center gap-6 p-8 text-center"
-				>
-					<Loader2 class="w-12 h-12 text-violet-700 animate-spin" />
-					<h3 class="font-semibold text-xl">Аудио өңделуде</h3>
-					<p class="text-slate-400 text-sm">Біраз уақыт қажет болады…</p>
-					<div class="bg-white/10 rounded w-full max-w-xs h-1 overflow-hidden">
-						<div
-							:style="{ width: processingProgress + '%' }"
-							class="bg-violet-700 h-full transition-[width] duration-300"
-						></div>
-					</div>
-					<span class="font-medium text-violet-700 text-sm"> {{ processingProgress }}% </span>
-				</div>
-
-				<!-- Ready -->
-				<div
-					v-if="resultState === 'ready'"
-					class="flex flex-col gap-6"
-				>
-					<div class="bg-black/20 rounded-3xl w-full h-[120px] overflow-hidden">
-						<div
-							ref="waveformElement"
-							class="w-full h-full"
-						></div>
-					</div>
-
-					<div class="flex items-center gap-4">
-						<button
-							@click="togglePlayback"
-							class="flex justify-center items-center bg-violet-700 hover:bg-violet-800 rounded-full w-12 h-12 text-white transition"
+							v-for="tab in tabs"
+							:key="tab.id"
+							class="flex items-center gap-2 px-5 py-3 rounded-full font-medium text-sm transition"
+							:class="activeTab === tab.id
+                ? 'bg-violet-600 text-white shadow-lg shadow-violet-600/20'
+                : 'bg-white/5 text-slate-300 hover:bg-white/10'"
+							@click="activeTab = tab.id"
 						>
 							<component
-								:is="playbackIcon"
-								class="w-6 h-6"
+								:is="tab.icon"
+								class="w-4 h-4"
 							/>
+							<span>{{ tab.label }}</span>
 						</button>
+					</div>
 
-						<div class="flex items-center gap-1 min-w-[80px] text-slate-400 text-sm">
-							<span>{{ formatTime(currentTime) }}</span>
-							<span>/</span>
-							<span>{{ formatTime(totalDuration) }}</span>
+					<!-- Tale Badges -->
+					<div class="flex flex-wrap gap-2">
+						<button
+							v-for="tale in tales"
+							:key="tale.id"
+							class="px-4 py-2 rounded-full font-medium text-sm transition"
+							:class="selectedTale === tale.id
+                ? 'bg-violet-600 text-white'
+                : 'bg-white/5 text-slate-300 hover:bg-white/10'"
+							@click="selectTale(tale)"
+						>
+							{{ tale.name }}
+						</button>
+					</div>
+
+					<!-- Input card -->
+					<div class="bg-slate-800/60 shadow-inner p-6 rounded-2xl">
+						<!-- Recording -->
+						<template v-if="activeTab === 'record'">
+							<div class="flex flex-col gap-6">
+								<button
+									@click="toggleRecording"
+									class="flex flex-col justify-center items-center gap-3 p-6 rounded-3xl w-full transition"
+									:class="{
+                    'bg-violet-600 text-white hover:bg-violet-700': recordingState === 'idle',
+                    'bg-red-500 text-white hover:bg-red-600': recordingState === 'recording',
+                    'bg-emerald-500 text-white hover:bg-emerald-600': recordingState === 'recorded'
+                  }"
+								>
+									<div class="flex items-center gap-3">
+										<component
+											:is="recordingIcon"
+											class="w-6 h-6"
+										/>
+										<span class="font-medium text-base">{{ recordingButtonText }}</span>
+									</div>
+									<div
+										v-if="recordingState === 'recording'"
+										class="flex items-center gap-2 text-sm"
+									>
+										<span class="relative flex w-3 h-3">
+											<span
+												class="absolute bg-white opacity-75 rounded-full w-full h-full animate-ping"
+											></span>
+											<span class="relative bg-white rounded-full w-3 h-3"></span>
+										</span>
+										<span>Жазылуда…</span>
+									</div>
+								</button>
+
+								<div
+									v-if="recordingState === 'recorded' && recordedUrl"
+									class="w-full"
+								>
+									<AudioPlayer :url="recordedUrl" />
+								</div>
+							</div>
+						</template>
+
+						<!-- File Upload -->
+						<template v-else>
+							<div class="flex flex-col gap-4">
+								<label
+									class="flex flex-col justify-center items-center gap-3 p-8 border-2 border-dashed rounded-2xl text-center transition cursor-pointer"
+									:class="audioFile
+                    ? 'border-violet-600 bg-violet-600/10'
+                    : 'border-white/10 hover:border-violet-500/80 hover:bg-violet-500/5'"
+								>
+									<input
+										type="file"
+										accept="audio/wav"
+										class="hidden"
+										@change="handleFileUpload"
+									/>
+									<UploadIcon class="w-8 h-8 text-violet-500" />
+									<span
+										v-if="!audioFile"
+										class="font-medium text-base"
+										>WAV файл таңдаңыз</span
+									>
+									<span
+										v-else
+										class="font-medium text-base break-all"
+										>{{ audioFile.name }}</span
+									>
+								</label>
+								<div
+									v-if="audioFile && fileUrl"
+									class="w-full"
+								>
+									<AudioPlayer :url="fileUrl" />
+								</div>
+							</div>
+						</template>
+					</div>
+
+					<!-- Text areas -->
+					<div class="flex flex-col gap-2">
+						<label class="font-medium text-slate-200 text-sm">Референс мәтін</label>
+						<textarea
+							v-model="refText"
+							placeholder="Мәтінді өзгертуге болады..."
+							class="bg-white/5 p-4 border border-white/10 rounded-2xl min-h-[200px] max-h-[300px]"
+						/>
+					</div>
+
+					<div class="flex flex-col gap-2">
+						<label class="font-medium text-slate-200 text-sm">Генерация мәтіні</label>
+						<textarea
+							v-model="genText"
+							placeholder="Генерацияланатын мәтін..."
+							class="bg-white/5 p-4 border border-white/10 rounded-2xl min-h-[200px] max-h-[300px]"
+						/>
+					</div>
+
+					<!-- Process button -->
+					<button
+						@click="processAudio"
+						:disabled="!hasAudioInput || isProcessing"
+						class="flex justify-center items-center gap-3 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 mt-auto p-4 rounded-3xl font-medium text-white text-lg transition"
+					>
+						<LoaderIcon
+							v-if="isProcessing"
+							class="w-5 h-5 animate-spin"
+						/>
+						<span>{{ isProcessing ? 'Өңделуде…' : 'Өңдеуді бастау' }}</span>
+					</button>
+				</section>
+
+				<!-- RIGHT PANE -->
+				<section class="flex flex-col gap-6 bg-slate-900/30 p-8 lg:p-10">
+					<header>
+						<h2 class="font-semibold text-white text-2xl">Нәтижелер</h2>
+						<p class="text-slate-400 text-sm">Өңделген аудио</p>
+					</header>
+
+					<div class="flex flex-col gap-6">
+						<!-- Empty -->
+						<div
+							v-if="resultState === 'empty'"
+							class="flex flex-col justify-center items-center gap-4 bg-white/5 p-8 border border-white/10 rounded-2xl text-center"
+						>
+							<MusicIcon class="w-12 h-12 text-slate-400/80" />
+							<h3 class="font-semibold text-xl">Нәтиже жоқ</h3>
+							<p class="text-slate-400 text-sm">Өңдеуді бастаңыз</p>
 						</div>
 
-						<input
-							type="range"
-							:value="currentTime"
-							:max="totalDuration"
-							@input="handleSeek"
-							class="flex-1 bg-white/10 [&::-webkit-slider-thumb]:bg-violet-700 rounded [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:w-3 h-1 [&::-webkit-slider-thumb]:h-3 appearance-none [&::-webkit-slider-thumb]:appearance-none"
-						/>
+						<!-- Processing -->
+						<div
+							v-if="resultState === 'processing'"
+							class="flex flex-col justify-center items-center gap-6 p-8 text-center"
+						>
+							<LoaderIcon class="w-12 h-12 text-violet-600 animate-spin" />
+							<h3 class="font-semibold text-xl">Өңделуде…</h3>
+						</div>
 
-						<button
-							@click="downloadResult"
-							class="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-3 py-2 rounded-3xl font-medium text-slate-50 text-sm transition"
+						<!-- Ready -->
+						<div
+							v-if="resultState === 'ready' && resultUrl"
+							class="flex flex-col gap-4 w-full"
 						>
-							<Download class="w-4 h-4" />
-							<span>Жүктеп алу</span>
-						</button>
-					</div>
+							<div class="p-4 border border-violet-600/20 rounded-2xl">
+								<AudioPlayer :url="resultUrl" />
+							</div>
 
-					<div class="flex gap-4">
-						<button
-							@click="saveResult"
-							class="flex flex-1 justify-center items-center gap-2 bg-emerald-500 hover:bg-emerald-600 px-5 py-3 rounded-3xl font-medium text-white transition"
-						>
-							<Save class="w-4 h-4" />
-							<span>Сақтау</span>
-						</button>
-						<button
-							@click="processAgain"
-							class="flex flex-1 justify-center items-center gap-2 bg-white/5 hover:bg-white/10 px-5 py-3 rounded-3xl font-medium text-slate-50 transition"
-						>
-							<RefreshCw class="w-4 h-4" />
-							<span>Қайта өңдеу</span>
-						</button>
+							<div class="flex gap-4">
+								<button
+									@click="downloadResult"
+									class="flex flex-1 justify-center items-center gap-2 bg-white/5 hover:bg-white/10 px-5 py-3 rounded-3xl font-medium text-slate-50"
+								>
+									<DownloadIcon class="w-4 h-4" />
+									<span>Жүктеу</span>
+								</button>
+								<button
+									@click="processAgain"
+									class="flex flex-1 justify-center items-center gap-2 bg-emerald-500 hover:bg-emerald-600 px-5 py-3 rounded-3xl font-medium text-white"
+								>
+									<RefreshCwIcon class="w-4 h-4" />
+									<span>Қайта өңдеу</span>
+								</button>
+							</div>
+						</div>
 					</div>
-				</div>
+				</section>
 			</div>
-		</section>
+		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import AudioPlayer from '@/components/generate/audio-player.vue'
+import { useGradioService } from '@/composables/gradio.composable'
+import { useRecorder, type ResultState, type TabId } from '@/composables/recorder.composable'
+import { tales, type Tale } from '@/constants/literature'
 import {
-  Download,
-  Image,
-  Loader2, Mic, Pause, Play,
-  RefreshCw,
-  Save,
-  Square, Upload, X
+  ChevronLeft,
+  DownloadIcon,
+  LoaderIcon,
+  MicIcon,
+  MusicIcon,
+  RefreshCwIcon,
+  UploadIcon,
 } from 'lucide-vue-next'
-import { computed, onUnmounted, ref } from 'vue'
-import WaveSurfer from 'wavesurfer.js'
+import { computed, ref, watch } from 'vue'
 
-// Constants
-const FILE_TYPES = {
-  'mp3': 'MP3 Audio',
-  'wav': 'WAV Audio',
-  'ogg': 'OGG Audio',
-  'm4a': 'AAC Audio',
-  'webm': 'WebM Audio'
-}
-
-// Tab Management
+// — Tabs —
 const tabs = [
-  { id: 'record', label: 'Жазу', icon: Mic },
-  { id: 'file', label: 'Файл', icon: Upload }
+  { id: 'record' as TabId, label: 'Жазу', icon: MicIcon },
+  { id: 'file' as TabId, label: 'Файл', icon: UploadIcon },
 ]
-const activeTab = ref<'record' | 'file'>('record')
+const activeTab = ref<TabId>('record')
 
-// Recording State
-const recordingState = ref<'idle' | 'recording' | 'recorded'>('idle')
-const mediaRecorder = ref<MediaRecorder | null>(null)
-const audioChunks = ref<BlobPart[]>([])
-const audioBlob = ref<Blob | null>(null)
-const audioDuration = ref<number>(0)
-const audioContext = ref<AudioContext | null>(null)
-const analyser = ref<AnalyserNode | null>(null)
-const visualizationBars = ref<number[]>(Array(20).fill(10))
+// — Recorder / File Upload —
+const {
+  recordingState,
+  recordedBlob,
+  recordedUrl,
+  recordingButtonText,
+  recordingIcon,
+  toggleRecording,
+} = useRecorder()
 
-// File Upload State
-const audioFile = ref<File | null>(null)
-
-// Notes State
-const userNotes = ref<string>('')
-
-// Processing State
-const isProcessing = ref<boolean>(false)
-const processingProgress = ref<number>(0)
-const hasAudioInput = computed(() => audioBlob.value || audioFile.value)
-
-// Results State
-const resultState = ref<'empty' | 'processing' | 'ready'>('empty')
-const resultBlob = ref<Blob | null>(null)
-const waveformElement = ref<HTMLElement | null>(null)
-const wavesurfer = ref<WaveSurfer | null>(null)
-const isPlaying = ref<boolean>(false)
-const currentTime = ref<number>(0)
-const totalDuration = ref<number>(0)
-
-// Computed Properties
-const recordingButtonText = computed(() => {
-  switch (recordingState.value) {
-    case 'idle': return 'Жазуды бастау'
-    case 'recording': return 'Жазуды тоқтату'
-    case 'recorded': return 'Қайта жазу'
-    default: return 'Жазу'
-  }
-})
-
-const recordingIcon = computed(() => {
-  return recordingState.value === 'recording' ? Square : Mic
-})
-
-const playbackIcon = computed(() => {
-  return isPlaying.value ? Pause : Play
-})
-
-// Methods
-const toggleRecording = async () => {
-  if (recordingState.value === 'idle') {
-    await startRecording()
-  } else if (recordingState.value === 'recording') {
-    stopRecording()
-  } else {
-    resetRecording()
-  }
+const audioFile = ref<File|null>(null)
+const fileUrl = computed<string|undefined>(
+  () => audioFile.value ? URL.createObjectURL(audioFile.value) : undefined
+)
+watch(fileUrl, (old, prev) => prev && URL.revokeObjectURL(prev))
+function handleFileUpload(e: Event) {
+  const f = (e.target as HTMLInputElement).files?.[0]
+  if (f && f.type === 'audio/wav') audioFile.value = f
+  else alert('Тек WAV формат!')
 }
 
-const startRecording = async () => {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-    audioContext.value = new AudioContext()
-    const source = audioContext.value.createMediaStreamSource(stream)
-
-    analyser.value = audioContext.value.createAnalyser()
-    analyser.value.fftSize = 32
-    source.connect(analyser.value)
-
-    mediaRecorder.value = new MediaRecorder(stream)
-    audioChunks.value = []
-
-    mediaRecorder.value.ondataavailable = (event) => {
-      audioChunks.value.push(event.data)
-    }
-
-    mediaRecorder.value.onstop = () => {
-      audioBlob.value = new Blob(audioChunks.value, { type: 'audio/webm' })
-      calculateDuration(audioBlob.value)
-    }
-
-    mediaRecorder.value.start(100)
-    recordingState.value = 'recording'
-    startVisualization()
-  } catch (error) {
-    console.error('Recording error:', error)
-    alert('Микрофонға рұқсат берілмеген немесе қолжетімсіз')
-  }
+// — Tale selection —
+const selectedTale = ref<string|null>(null)
+const refText = ref('Әдепкі референс мәтін...')
+const genText = ref('Әдепкі генерация мәтіні...')
+function selectTale(t: Tale) {
+  selectedTale.value = t.id
+  refText.value = t.ref
+  genText.value = t.gen
 }
 
-const stopRecording = () => {
-  if (mediaRecorder.value) {
-    mediaRecorder.value.stop()
-    mediaRecorder.value.stream.getTracks().forEach(track => track.stop())
-    recordingState.value = 'recorded'
-    stopVisualization()
-  }
-}
+// — Gradio processing —
+const { submitToGradio, isServiceProcessing } = useGradioService()
+const isProcessing = computed(() => isServiceProcessing.value)
+const hasAudioInput = computed(() => !!recordedBlob.value || !!audioFile.value)
+const resultState = ref<ResultState>('empty')
+const resultUrl = ref<string|null>(null)
 
-const resetRecording = () => {
-  audioBlob.value = null
-  recordingState.value = 'idle'
-  audioDuration.value = 0
-}
-
-const calculateDuration = (blob: Blob) => {
-  const audio = new Audio()
-  audio.src = URL.createObjectURL(blob)
-  audio.onloadedmetadata = () => {
-    audioDuration.value = audio.duration
-    URL.revokeObjectURL(audio.src)
-  }
-}
-
-const startVisualization = () => {
-  if (!analyser.value) return
-
-  const bufferLength = analyser.value.frequencyBinCount
-  const dataArray = new Uint8Array(bufferLength)
-
-  const updateVisualization = () => {
-    if (recordingState.value !== 'recording') return
-
-    analyser.value!.getByteFrequencyData(dataArray)
-
-    const bars = []
-    for (let i = 0; i < 20; i++) {
-      const value = dataArray[i] || 0
-      bars.push(Math.min(100, Math.max(5, value / 2.55)))
-    }
-
-    visualizationBars.value = bars
-    requestAnimationFrame(updateVisualization)
-  }
-
-  updateVisualization()
-}
-
-const stopVisualization = () => {
-  visualizationBars.value = Array(20).fill(10)
-}
-
-const handleFileUpload = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  if (input.files && input.files[0]) {
-    audioFile.value = input.files[0]
-    audioBlob.value = null
-    recordingState.value = 'idle'
-
-    // Calculate duration for uploaded file
-    const audio = new Audio()
-    audio.src = URL.createObjectURL(audioFile.value)
-    audio.onloadedmetadata = () => {
-      audioDuration.value = audio.duration
-      URL.revokeObjectURL(audio.src)
-    }
-  }
-}
-
-const clearFile = () => {
-  audioFile.value = null
-}
-
-const formatFileSize = (bytes: number): string => {
-  if (bytes < 1024) return `${bytes} Б`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} КБ`
-  return `${(bytes / (1024 * 1024)).toFixed(1)} МБ`
-}
-
-const getFileType = (fileName: string): string => {
-  const extension = fileName.split('.').pop()?.toLowerCase() || ''
-  return FILE_TYPES[extension as keyof typeof FILE_TYPES] || 'Аудио файл'
-}
-
-const formatDuration = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60)
-  const secs = Math.floor(seconds % 60)
-  return `${mins}:${secs < 10 ? '0' : ''}${secs}`
-}
-
-const processAudio = async () => {
+async function processAudio() {
   if (!hasAudioInput.value) return
-
   resultState.value = 'processing'
-  isProcessing.value = true
-
-  // Simulate processing with progress updates
-  const interval = setInterval(() => {
-    processingProgress.value += Math.random() * 10
-    if (processingProgress.value >= 100) {
-      processingProgress.value = 100
-      clearInterval(interval)
-      finishProcessing()
-    }
-  }, 300)
-}
-
-const finishProcessing = () => {
-  setTimeout(() => {
-    // In a real app, this would be the actual processed audio
-    resultBlob.value = audioBlob.value || new Blob([audioFile.value!])
-    initWaveform()
+  try {
+    const audio = recordedBlob.value || audioFile.value!
+    resultUrl.value = await submitToGradio({
+      ref_audio_file: audio,
+      ref_text: refText.value,
+      gen_text: genText.value,
+    })
     resultState.value = 'ready'
-    isProcessing.value = false
-    processingProgress.value = 0
-  }, 500)
-}
-
-const initWaveform = () => {
-  if (!waveformElement.value || !resultBlob.value) return
-
-  wavesurfer.value?.destroy()
-
-  wavesurfer.value = WaveSurfer.create({
-    container: waveformElement.value,
-    waveColor: '#8b5cf6',
-    progressColor: '#4c1d95',
-    cursorColor: '#4c1d95',
-    barWidth: 2,
-    barRadius: 3,
-    barGap: 2,
-    height: 120,
-    normalize: true
-  })
-
-  wavesurfer.value.loadBlob(resultBlob.value)
-
-  wavesurfer.value.on('ready', () => {
-    totalDuration.value = wavesurfer.value?.getDuration() || 0
-  })
-
-  wavesurfer.value.on('audioprocess', () => {
-    currentTime.value = wavesurfer.value?.getCurrentTime() || 0
-  })
-
-  wavesurfer.value.on('play', () => {
-    isPlaying.value = true
-  })
-
-  wavesurfer.value.on('pause', () => {
-    isPlaying.value = false
-  })
-
-  wavesurfer.value.on('finish', () => {
-    isPlaying.value = false
-  })
-}
-
-const togglePlayback = () => {
-  if (wavesurfer.value) {
-    wavesurfer.value.playPause()
+  } catch {
+    alert('Қате орын алды')
+    resultState.value = 'empty'
   }
 }
-
-const handleSeek = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const seekTime = parseFloat(target.value)
-  wavesurfer.value?.seekTo(seekTime / totalDuration.value)
-}
-
-const formatTime = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60)
-  const secs = Math.floor(seconds % 60)
-  return `${mins}:${secs < 10 ? '0' : ''}${secs}`
-}
-
-const downloadResult = () => {
-  if (!resultBlob.value) return
-
-  const url = URL.createObjectURL(resultBlob.value)
+function downloadResult() {
+  if (!resultUrl.value) return
   const a = document.createElement('a')
-  a.href = url
-  a.download = `processed_audio_${new Date().toISOString().slice(0, 10)}.webm`
-  document.body.appendChild(a)
+  a.href = resultUrl.value
+  a.download = `voice_clone_${new Date().toISOString().slice(0,10)}.wav`
   a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
 }
-
-const saveResult = () => {
-  // In a real app, this would save to a database or server
-  alert('Аудио сақталды (бұл демо)')
-}
-
-const processAgain = () => {
+function processAgain() {
   resultState.value = 'empty'
-  resultBlob.value = null
-  wavesurfer.value?.destroy()
-  wavesurfer.value = null
+  resultUrl.value = null
 }
-
-// Cleanup
-onUnmounted(() => {
-  if (mediaRecorder.value) {
-    mediaRecorder.value.stream.getTracks().forEach(track => track.stop())
-  }
-  wavesurfer.value?.destroy()
-  if (audioBlob.value) {
-    URL.revokeObjectURL(URL.createObjectURL(audioBlob.value))
-  }
-  if (resultBlob.value) {
-    URL.revokeObjectURL(URL.createObjectURL(resultBlob.value))
-  }
-})
 </script>
+
+<style scoped>
+textarea {
+  resize: vertical;
+}
+</style>
