@@ -1,36 +1,31 @@
 <template>
-	<section
-		id="books"
-		class="py-16"
-	>
-		<div class="mx-auto px-4 container">
-			<div class="gap-6 grid grid-cols-12 grid-flow-dense auto-rows-[18rem]">
-				<div
-					v-for="(book, i) in BOOKS"
-					:key="i"
-					:class="['fade-in cursor-pointer', bento(i)]"
-					@click="goToBook(book.id)"
-				>
-					<div class="group card">
-						<img
-							:src="book.coverImage"
-							alt=""
-							class="group-hover:scale-105 cover"
-						/>
-						<span class="shine"></span>
-						<div class="z-20 relative px-6 py-4">
-							<h3 class="title">{{ book.title }}</h3>
-							<p class="author">{{ book.author }}</p>
-						</div>
-						<span class="badge">{{ book.duration }}</span>
-						<button class="play-btn">
-							<Play class="w-5 h-5" />
-						</button>
+	<div class="mx-auto px-4 container">
+		<div class="gap-6 grid grid-cols-12 grid-flow-dense auto-rows-[18rem]">
+			<div
+				v-for="(book, i) in BOOKS"
+				:key="i"
+				:class="['fade-in cursor-pointer', bento(i)]"
+				@click="goToBook(book.id)"
+			>
+				<div class="group card">
+					<img
+						:src="book.coverImage"
+						alt=""
+						class="group-hover:scale-105 cover"
+					/>
+					<span class="shine"></span>
+					<div class="z-20 relative px-6 py-4">
+						<h3 class="title">{{ book.title }}</h3>
+						<p class="author">{{ book.author }}</p>
 					</div>
+					<span class="badge">{{ book.duration }}</span>
+					<button class="play-btn">
+						<Play class="w-5 h-5" />
+					</button>
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
 </template>
 
 <script setup lang="ts">

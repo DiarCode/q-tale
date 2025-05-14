@@ -5,15 +5,15 @@
 		<!-- particles container -->
 		<div
 			ref="particlesContainer"
-			class="absolute inset-0 pointer-events-none"
+			class="absolute inset-0 pointer-events-none z-0"
 		></div>
 
 		<!-- purple blobs -->
 		<div
-			class="top-1/4 left-1/4 absolute bg-fuchsia-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem]"
+			class="top-1/4 left-1/4 absolute bg-fuchsia-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem] z-0 pointer-events-none"
 		></div>
 		<div
-			class="right-1/4 bottom-1/4 absolute bg-violet-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem]"
+			class="right-1/4 bottom-1/4 absolute bg-violet-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem] z-0  pointer-events-none"
 		></div>
 
 		<!-- header -->
@@ -30,13 +30,13 @@
 			</p>
 			<div class="flex sm:flex-row flex-col justify-center gap-6">
 				<button
-					class="btn-primary"
+					class="btn-primary cursor-pointer"
 					@click="scrollToBooks"
 				>
 					Бастау
 				</button>
 				<button
-					class="btn-outline"
+					class="btn-outline cursor-pointer"
 					@click="goToBooksPage"
 				>
 					Аудио өңдеу
@@ -45,7 +45,12 @@
 		</section>
 
 		<!-- books -->
-		<HomeBooks />
+		<section
+			id="books"
+			class="py-16"
+		>
+			<HomeBooks />
+		</section>
 	</div>
 </template>
 
@@ -59,7 +64,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 function scrollToBooks() {
-  document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })
+  router.push({name: 'home', hash: '#books'})
 }
 
 function goToBooksPage() {

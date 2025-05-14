@@ -254,7 +254,7 @@ function startPlayback() {
 .custom-select {
   display: flex; align-items:center; justify-content:space-between;
   background: rgba(76,29,149,0.3); border:1px solid rgba(168,85,247,0.3);
-  padding: .75rem 1rem; border-radius:9999px; cursor:pointer;
+  padding: 1.1rem 1rem; border-radius:9999px; cursor:pointer;
   transition: background .3s, border-color .3s, box-shadow .3s;
 }
 .custom-select:hover {

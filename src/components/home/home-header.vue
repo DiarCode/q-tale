@@ -20,7 +20,7 @@
 					>Кітаптар</RouterLink
 				>
 				<RouterLink
-					:to="{name: 'home', hash: '#books'}"
+					to="/books"
 					class="nav-link"
 					>Жанрлар</RouterLink
 				>

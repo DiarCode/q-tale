@@ -25,7 +25,7 @@ function parseDuration(dur: string): number {
  */
 export function useBookAssistant(rawBookId: number, getPosition: () => number) {
 	// 1) OpenAI clients
-	const apiKey = import.meta.env.VITE_OPENAI_API_KEY!
+	const apiKey = import.meta.env.VITE_OPENAI_API_KEY ?? ''
 	const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true })
 	const chat = new ChatOpenAI({
 		openAIApiKey: apiKey,

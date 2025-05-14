@@ -199,14 +199,14 @@ onUnmounted(() => cancelAnimationFrame(frameId))
 .blob.b5{@apply w-[160px] h-[160px] bg-[#9933ff] bottom-44 left-56}
 .galaxy{position:absolute;inset:0}
 
-.player-card{@apply absolute left-1/2 top-1/2 w-[520px] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-8 p-10 rounded-[30px] bg-gray-900/60 backdrop-blur-lg shadow-2xl}
+.player-card{@apply absolute left-1/2 top-1/2 w-[520px] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-8 p-10 rounded-[32px] bg-slate-900 border border-purple-900/30 bg-opacity-10 backdrop-blur-sm shadow-2xl}
 .cover{@apply w-52 h-52 rounded-2xl shadow-2xl object-cover}
 .info{@apply text-center}
 .title{@apply text-3xl font-semibold}
 .author{@apply text-purple-300}
-.controls{@apply w-full flex flex-col items-center gap-4}
-.play-btn{@apply w-20 h-20 rounded-full flex items-center justify-center bg-purple-600 hover:bg-purple-500 transition}
-.progress{@apply relative w-full h-4 rounded-full cursor-pointer bg-purple-800}
+.controls{@apply w-full flex flex-col items-center gap-6}
+.play-btn{@apply w-20 h-20 rounded-full flex items-center justify-center bg-purple-600 hover:bg-purple-500 transition cursor-pointer}
+.progress{@apply relative w-full h-5 rounded-full cursor-pointer bg-purple-800}
 .progress__filled{@apply absolute inset-y-0 left-0 bg-purple-500 rounded-full}
 .time{@apply text-base text-purple-200}
 </style>

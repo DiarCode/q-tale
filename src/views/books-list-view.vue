@@ -10,10 +10,10 @@
 
 		<!-- subtle purple blobs -->
 		<div
-			class="top-1/4 left-1/4 absolute bg-fuchsia-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem]"
+			class="top-1/4 left-1/4 absolute bg-fuchsia-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem] pointer-events-none"
 		></div>
 		<div
-			class="right-1/4 bottom-1/4 absolute bg-violet-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem]"
+			class="right-1/4 bottom-1/4 absolute bg-violet-700/20 blur-[220px] rounded-full w-[28rem] h-[28rem] pointer-events-none"
 		></div>
 
 		<!-- nav -->
