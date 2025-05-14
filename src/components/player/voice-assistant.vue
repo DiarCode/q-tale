@@ -46,7 +46,12 @@
 					v-for="msg in visibleMessages"
 					:key="msg.id"
 				>
-					<div :class="['bubble', msg.sender]">{{ msg.text }}</div>
+					<div
+						v-if="msg.sender === 'ai'"
+						:class="['bubble', msg.sender]"
+					>
+						{{ msg.text }}
+					</div>
 				</template>
 			</div>
 		</aside>

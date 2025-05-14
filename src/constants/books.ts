@@ -47,8 +47,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Мұхтар Әуезовтің ұлы эпопеясы – қазақ интеллигенциясының қалыптасуын, Абай Құнанбаевтың өмірі мен идеясын кең көлемде бейнелейді.',
 		audioSources: {
-			male: '/assets/audio/1-male.mp3',
-			female: '/assets/audio/1-female.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
 		},
 	},
 	{
@@ -64,8 +64,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Әбдіжәміл Нұрпейісов қазақ даласының әлеуметтік өзгерістерін, еңбекшілердің тағдырын трилогиялық форматта суреттейді.',
 		audioSources: {
-			male: '/assets/audio/2-male.mp3',
-			female: '/assets/audio/2-female.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
 		},
 	},
 	{
@@ -81,8 +81,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Шерхан Мұртазаның бала мен ана арасындағы мөндетті, сырлы қарым-қатынасын шынайы диалог түрінде жеткізетін романы.',
 		audioSources: {
-			male: '/assets/audio/3-male.mp3',
-			female: '/assets/audio/3-female.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
 		},
 	},
 	{
@@ -99,8 +99,8 @@ export const BOOKS: Book[] = [
 		description:
 			'20 ғасырдың басындағы Ақ Жайық өңіріндегі халықтың азапты тағдырын және азаттық үшін күресті суреттейтін тарихи роман.',
 		audioSources: {
-			male: '/assets/audio/4-male.mp3',
-			female: '/assets/audio/4-female.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
 		},
 	},
 	{
@@ -116,8 +116,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Әбіш Кекілбаевтың кіші жүз руларының Ресей империясына қосылу кезеңін нақты тарихи деректерге сүйеніп суреттейтін көлемді шығарма.',
 		audioSources: {
-			male: '/assets/audio/5-male.mp3',
-			female: '/assets/audio/5-female.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
 		},
 	},
 ]
