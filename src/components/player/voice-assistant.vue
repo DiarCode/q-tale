@@ -105,8 +105,8 @@ const stateText = computed(() => {
   switch (assistantState.value) {
     case 'idle':
       return isRecording.value
-        ? 'Жазылғаннан кейін орбты қайта түртіңіз'
-        : 'Орбты түртіңіз сұрақ қою үшін'
+        ? 'Жазу аяқталғаннан кейін батырманы қайта басыңыз'
+        : 'Сұрақ қою үшін батырманы басыңыз'
     case 'listening': return 'Жазылып тұр…'
     case 'thinking':  return 'Жауап дайындап жатыр…'
     case 'speaking':  return 'Жауап берілуде…'
