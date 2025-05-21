@@ -47,8 +47,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Мұхтар Әуезовтің ұлы эпопеясы – қазақ интеллигенциясының қалыптасуын, Абай Құнанбаевтың өмірі мен идеясын кең көлемде бейнелейді.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/abai_zholy_1_male.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/abai_zholy_1_female.mp3',
 		},
 	},
 	{
@@ -64,8 +64,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Әбдіжәміл Нұрпейісов қазақ даласының әлеуметтік өзгерістерін, еңбекшілердің тағдырын трилогиялық форматта суреттейді.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/qan_men_ter_male.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/qan_men_ter_female.mp3',
 		},
 	},
 	{
@@ -99,8 +99,8 @@ export const BOOKS: Book[] = [
 		description:
 			'20 ғасырдың басындағы Ақ Жайық өңіріндегі халықтың азапты тағдырын және азаттық үшін күресті суреттейтін тарихи роман.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1_male.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_2_female.mp3',
 		},
 	},
 	{
