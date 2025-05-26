@@ -81,8 +81,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Шерхан Мұртазаның бала мен ана арасындағы мөндетті, сырлы қарым-қатынасын шынайы диалог түрінде жеткізетін романы.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/ai_men_aisha_male.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/ai_men_aisha_female.mp3',
 		},
 	},
 	{
@@ -116,8 +116,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Әбіш Кекілбаевтың кіші жүз руларының Ресей империясына қосылу кезеңін нақты тарихи деректерге сүйеніп суреттейтін көлемді шығарма.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1.mp3',
+			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/urker_male.mp3',
+			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/urker_male.mp3',
 		},
 	},
 ]
