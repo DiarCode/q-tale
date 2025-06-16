@@ -2,6 +2,7 @@ import { Client } from '@gradio/client'
 import { ref } from 'vue'
 
 interface GradioInputs {
+	url: string
 	ref_audio_file: Blob | File
 	ref_text: string
 	gen_text: string
@@ -22,10 +23,10 @@ interface GradioFileData {
 const cached = ref<Client | null>(null)
 const isServiceProcessing = ref(false)
 
-async function getClient() {
+async function getClient(url: string) {
 	if (!cached.value) {
 		try {
-			cached.value = await Client.connect('https://ff96d9e50490d7cad2.gradio.live')
+			cached.value = await Client.connect(url)
 			console.log('Gradio client connected successfully')
 		} catch (err) {
 			console.error('Failed to connect to Gradio:', err)
@@ -39,12 +40,13 @@ async function submitToGradio({
 	ref_audio_file,
 	ref_text,
 	gen_text,
+	url,
 }: GradioInputs): Promise<string> {
 	isServiceProcessing.value = true
 	console.log('Submitting to Gradio:', { ref_text, gen_text, audio_size: ref_audio_file.size })
 
 	try {
-		const client = await getClient()
+		const client = await getClient(url)
 		const { data } = (await client.predict('/predict', {
 			ref_audio_file,
 			ref_text,
