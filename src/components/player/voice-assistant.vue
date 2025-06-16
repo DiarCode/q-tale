@@ -1,5 +1,4 @@
 <template>
-	<!-- launcher -->
 	<button
 		v-show="!sheetOpen"
 		class="assistant-btn"
@@ -17,16 +16,15 @@
 				<h3>Кітап көмекшісі</h3>
 				<button
 					aria-label="Жабу"
-					@click="sheetOpen = false"
+					@click="closeAssistant"
 				>
 					&times;
 				</button>
 			</header>
 
-			<!-- orb tap flow -->
 			<div
 				class="orb-wrapper"
-				@click="toggleMic"
+				@click="handleOrbClick"
 			>
 				<LottieOrb
 					v-for="o in orbs"
@@ -37,7 +35,6 @@
 			</div>
 			<p class="state-text">{{ stateText }}</p>
 
-			<!-- only last Q/A -->
 			<div
 				ref="chatScroll"
 				class="chat-scroll"
@@ -54,13 +51,20 @@
 					</div>
 				</template>
 			</div>
+
+			<button
+				v-if="assistantState === 'thinking' || assistantState === 'speaking'"
+				class="stop-button"
+				@click="stopAssistantProcess"
+			>
+				Тоқтату
+			</button>
 		</aside>
 	</transition>
 </template>
 
 <script setup lang="ts">
 import LottieOrb from '@/components/lottie-orb.vue'
-import { useBookAssistant } from '@/composables/openai-assistant.composable'
 import { Bot } from 'lucide-vue-next'
 import { computed, nextTick, ref, watch } from 'vue'
 
@@ -68,6 +72,7 @@ import idleAnim from '@/assets/ai_idle.json'
 import listenAnim from '@/assets/ai_listen.json'
 import speakAnim from '@/assets/ai_speak.json'
 import thinkAnim from '@/assets/ai_think.json'
+import { useBookAssistant } from '@/composables/openai-assistant.composable'
 
 interface Props { bookId: number; timestamp: number }
 const props = defineProps<Props>()
@@ -78,14 +83,30 @@ const {
   isRecording,
   error,
   start,
-  stop
+  stopRecording, // Renamed from 'stop'
+  stopAssistantProcess // New function to stop everything
 } = useBookAssistant(props.bookId, () => props.timestamp)
 
 const sheetOpen = ref(false)
-function toggleMic() {
-  error.value = null
-  if (assistantState.value === 'idle') start()
-  else if (assistantState.value === 'listening') stop()
+
+// Unified handler for orb click
+function handleOrbClick() {
+  error.value = null // Clear any previous error on interaction
+
+  if (assistantState.value === 'idle') {
+    start() // Start listening
+  } else if (assistantState.value === 'listening') {
+    stopRecording() // Stop recording
+  } else if (assistantState.value === 'thinking' || assistantState.value === 'speaking') {
+    // If the assistant is thinking or speaking, clicking the orb will stop it.
+    stopAssistantProcess()
+  }
+}
+
+// Function to close the assistant sheet and stop all processes
+function closeAssistant() {
+  stopAssistantProcess();
+  sheetOpen.value = false;
 }
 
 // last two messages
@@ -123,6 +144,7 @@ const orbs = [
 </script>
 
 <style scoped>
+/* Existing styles */
 .assistant-btn {
   @apply fixed bottom-6 right-6 z-40 w-20 h-20 rounded-full
          flex items-center justify-center bg-gradient-to-br
@@ -165,4 +187,10 @@ const orbs = [
 }
 .bubble.user { @apply self-end border-purple-400 border-l-4; }
 .bubble.ai   { @apply self-start border-indigo-400 border-l-4; }
+
+/* New: Stop button styles */
+.stop-button {
+  @apply mt-4 px-6 py-3 bg-red-600 text-white rounded-full
+         hover:bg-red-700 transition-colors self-center;
+}
 </style>
