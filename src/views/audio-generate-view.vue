@@ -133,7 +133,7 @@
 						<label
 							for="gradio-url"
 							class="font-medium text-slate-200 text-sm"
-							>Gradio API URL</label
+							>API URL</label
 						>
 						<input
 							id="gradio-url"
@@ -147,7 +147,7 @@
 							v-if="!gradioApiUrl && !isProcessing"
 							class="mt-1 text-red-400 text-xs"
 						>
-							Gradio API URL міндетті.
+							API URL міндетті.
 						</p>
 					</div>
 
@@ -240,17 +240,17 @@
 
 <script setup lang="ts">
 import AudioPlayer from '@/components/generate/audio-player.vue'
-import { useGradioService } from '@/composables/gradio.composable'
+import { useGenerateAudioService } from '@/composables/gradio.composable'
 import { useRecorder, type ResultState, type TabId } from '@/composables/recorder.composable'
 import { tales, type Tale } from '@/constants/literature'
 import {
-	ChevronLeft,
-	DownloadIcon,
-	LoaderIcon,
-	MicIcon,
-	MusicIcon,
-	RefreshCwIcon,
-	UploadIcon,
+  ChevronLeft,
+  DownloadIcon,
+  LoaderIcon,
+  MicIcon,
+  MusicIcon,
+  RefreshCwIcon,
+  UploadIcon,
 } from 'lucide-vue-next'
 import { computed, ref, watch } from 'vue'
 
@@ -302,10 +302,10 @@ function selectTale(t: Tale) {
 }
 
 /* --- Gradio API URL Input --- */
-const gradioApiUrl = ref<string>('');
+const gradioApiUrl = ref<string>('https://atlanti-dev--voice-clone-dev-tts-by-file-upload.modal.run');
 
 /* --- Gradio processing --- */
-const { submitToGradio, isServiceProcessing } = useGradioService()
+const { isServiceProcessing, submitToAtlanti } = useGenerateAudioService()
 const isProcessing = computed(() => isServiceProcessing.value)
 // Check if there's any valid audio input (recorded or uploaded file)
 const hasAudioInput = computed(() => !!recordedBlob.value || !!audioFile.value)
@@ -318,7 +318,7 @@ async function processAudio() {
 	if (!hasAudioInput.value || !gradioApiUrl.value) {
         // Potentially show a more explicit error message if URL is missing
         if (!gradioApiUrl.value) {
-            alert('Gradio API URL міндетті.');
+            alert('API URL міндетті.');
         }
         return;
     }
@@ -326,7 +326,7 @@ async function processAudio() {
 	resultState.value = 'processing'
 	try {
 		const audio = recordedBlob.value || audioFile.value!
-		resultUrl.value = await submitToGradio({
+		resultUrl.value = await submitToAtlanti({
 			ref_audio_file: audio,
 			ref_text: refText.value,
 			gen_text: genText.value,
@@ -335,7 +335,7 @@ async function processAudio() {
 		resultState.value = 'ready'
 	} catch (error) {
 		console.error("Gradio API error:", error); // Log the actual error for debugging
-		alert('Қате орын алды. Gradio API URL-ді тексеріңіз немесе сервермен байланысты тексеріңіз.');
+		alert('Қате орын алды. API URL-ді тексеріңіз немесе сервермен байланысты тексеріңіз.');
 		resultState.value = 'empty'
 	}
 }

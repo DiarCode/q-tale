@@ -47,8 +47,9 @@ export const BOOKS: Book[] = [
 		description:
 			'Мұхтар Әуезовтің ұлы эпопеясы – қазақ интеллигенциясының қалыптасуын, Абай Құнанбаевтың өмірі мен идеясын кең көлемде бейнелейді.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/abai_zholy_1_male.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/abai_zholy_1_female.mp3',
+			male: 'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/abai_zholy_1_male.mp3',
+			female:
+				'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/abai_zholy_1_female.mp3',
 		},
 	},
 	{
@@ -64,8 +65,9 @@ export const BOOKS: Book[] = [
 		description:
 			'Әбдіжәміл Нұрпейісов қазақ даласының әлеуметтік өзгерістерін, еңбекшілердің тағдырын трилогиялық форматта суреттейді.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/qan_men_ter_male.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/qan_men_ter_female.mp3',
+			male: 'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/qan_men_ter_male.mp3',
+			female:
+				'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/qan_men_ter_female.mp3',
 		},
 	},
 	{
@@ -81,8 +83,9 @@ export const BOOKS: Book[] = [
 		description:
 			'Шерхан Мұртазаның бала мен ана арасындағы мөндетті, сырлы қарым-қатынасын шынайы диалог түрінде жеткізетін романы.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/ai_men_aisha_male.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/ai_men_aisha_female.mp3',
+			male: 'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/ai_men_aisha_male.mp3',
+			female:
+				'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/ai_men_aisha_female.mp3',
 		},
 	},
 	{
@@ -99,8 +102,8 @@ export const BOOKS: Book[] = [
 		description:
 			'20 ғасырдың басындағы Ақ Жайық өңіріндегі халықтың азапты тағдырын және азаттық үшін күресті суреттейтін тарихи роман.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_1_male.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/aqzhaik_2_female.mp3',
+			male: 'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/aqzhaik_1_male.mp3',
+			female: 'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/aqzhaik_2_female.mp3',
 		},
 	},
 	{
@@ -116,8 +119,8 @@ export const BOOKS: Book[] = [
 		description:
 			'Әбіш Кекілбаевтың кіші жүз руларының Ресей империясына қосылу кезеңін нақты тарихи деректерге сүйеніп суреттейтін көлемді шығарма.',
 		audioSources: {
-			male: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/urker_male.mp3',
-			female: 'https://audioqor.fra1.cdn.digitaloceanspaces.com/urker_male.mp3',
+			male: 'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/urker_male.mp3',
+			female: 'https://audioqor-media.fra1.cdn.digitaloceanspaces.com/voices/urker_male.mp3',
 		},
 	},
 ]

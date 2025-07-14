@@ -51,7 +51,7 @@
 					/>
 				</button>
 
-				<div class="progress-container">
+				<!-- <div class="progress-container">
 					<div
 						class="progress"
 						@click="seekAudio"
@@ -63,7 +63,7 @@
 						/>
 					</div>
 					<div class="time">{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
@@ -77,14 +77,14 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronLeft, Pause, Play } from 'lucide-vue-next';
-import * as THREE from 'three';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { Howl } from 'howler';
+import { Howl } from 'howler'
+import { ChevronLeft, Pause, Play } from 'lucide-vue-next'
+import * as THREE from 'three'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-import ChatBot from '@/components/player/voice-assistant.vue';
-import { getBookAudio, getBookById, type Book, type Voice } from '@/constants/books';
+import ChatBot from '@/components/player/voice-assistant.vue'
+import { getBookAudio, getBookById, type Book, type Voice } from '@/constants/books'
 
 const route = useRoute();
 const router = useRouter();
@@ -111,9 +111,9 @@ const duration = ref(0);
 const updateInterval = ref<number | null>(null);
 
 // Progress bar styling
-const progressStyle = computed(() => ({
-  width: duration.value ? `${(currentTime.value / duration.value) * 100}%` : '0%',
-}));
+// const progressStyle = computed(() => ({
+//   width: duration.value ? `${(currentTime.value / duration.value) * 100}%` : '0%',
+// }));
 
 // Initialize audio player with streaming options
 function initAudio() {
@@ -196,45 +196,45 @@ function togglePlayback() {
   }
 }
 
-// Handle seeking in the progress bar
-function seekAudio(e: MouseEvent | TouchEvent) {
-  if (!sound.value || !duration.value || !ready.value) return;
+// // Handle seeking in the progress bar
+// function seekAudio(e: MouseEvent | TouchEvent) {
+//   if (!sound.value || !duration.value || !ready.value) return;
 
-  const target = e.currentTarget as HTMLElement;
-  const { left, width } = target.getBoundingClientRect();
+//   const target = e.currentTarget as HTMLElement;
+//   const { left, width } = target.getBoundingClientRect();
 
-  // Get clientX for both mouse and touch events
-  const clientX = e instanceof MouseEvent
-    ? e.clientX
-    : e.changedTouches[0].clientX;
+//   // Get clientX for both mouse and touch events
+//   const clientX = e instanceof MouseEvent
+//     ? e.clientX
+//     : e.changedTouches[0].clientX;
 
-  const clickPosition = (clientX - left) / width;
-  const seekTime = clickPosition * duration.value;
+//   const clickPosition = (clientX - left) / width;
+//   const seekTime = clickPosition * duration.value;
 
-  sound.value.seek(seekTime);
-  currentTime.value = seekTime;
-}
+//   sound.value.seek(seekTime);
+//   currentTime.value = seekTime;
+// }
 
-// Format time to MM:SS
-function formatTime(seconds = 0): string {
-  if (isNaN(seconds) || !isFinite(seconds) || seconds < 0) {
-    return '0:00';
-  }
+// // Format time to MM:SS
+// function formatTime(seconds = 0): string {
+//   if (isNaN(seconds) || !isFinite(seconds) || seconds < 0) {
+//     return '0:00';
+//   }
 
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
+//   const hrs = Math.floor(seconds / 3600);
+//   const mins = Math.floor((seconds % 3600) / 60);
+//   const secs = Math.floor(seconds % 60);
 
-  const padded = (n: number) => n.toString().padStart(2, '0');
+//   const padded = (n: number) => n.toString().padStart(2, '0');
 
-  if (hrs > 0) {
-    // H:MM:SS
-    return `${hrs}:${padded(mins)}:${padded(secs)}`;
-  } else {
-    // M:SS
-    return `${mins}:${padded(secs)}`;
-  }
-}
+//   if (hrs > 0) {
+//     // H:MM:SS
+//     return `${hrs}:${padded(mins)}:${padded(secs)}`;
+//   } else {
+//     // M:SS
+//     return `${mins}:${padded(secs)}`;
+//   }
+// }
 
 
 /* Galaxy background */

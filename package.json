@@ -29,6 +29,7 @@
     "@types/three": "^0.176.0",
     "@vueuse/core": "^13.1.0",
     "animejs": "^4.0.2",
+    "axios": "^1.10.0",
     "hls.js": "^1.6.2",
     "howler": "^2.2.4",
     "langchain": "^0.3.24",
